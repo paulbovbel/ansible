@@ -2,12 +2,37 @@
 - name: Assert that a embedded vault of a string with no newline works
   assert:
     that:
-      - '"{{ vault_encrypted_one_line_var }}" == "Setec Astronomy"'
+      - '"{{ vault_encrypted_one_line_var }}" == "{{ decrypted_one_line_var }}"'
 
 - name: Assert that a multi line embedded vault works, including new line
   assert:
     that:
-      - vault_encrypted_var == "Setec Astronomy\n"
+      - vault_encrypted_var == decrypted_var
+
+# to_yaml
+
+- name: Assert that a embedded vault of a string with no newline works with to_yaml
+  assert:
+    that:
+      - '"{{ vault_encrypted_one_line_var | to_yaml }}" == "{{ decrypted_one_line_var | to_yaml }}"'
+
+- name: Assert that a multi line embedded vault works with to_yaml, including new line
+  assert:
+    that:
+      - vault_encrypted_var | to_yaml == decrypted_var | to_yaml
+
+# to_json
+
+- name: Assert that a embedded vault of a string with no newline works with to_yaml
+  assert:
+    that:
+      - '"{{ vault_encrypted_one_line_var | to_json }}" == "{{ decrypted_one_line_var | to_json }}"'
+
+- name: Assert that a multi line embedded vault works with to_yaml, including new line
+  assert:
+    that:
+      - vault_encrypted_var == decrypted_var | to_json
+
 
 # TODO: add a expected fail here
 # - debug: var=vault_encrypted_one_line_var_with_embedded_template
